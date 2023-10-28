@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Feed } from './components/Feed';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 
 
 // 새로운 이미지를 올리는 화면
@@ -100,6 +100,7 @@ const DUMMY_DATA = [
 
 export default function Home() {
   const [ contents, serContents ] = useState( DUMMY_DATA );
+  const pathname = usePathname();
   const router = useRouter();
 
   return (
