@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Feed } from './components/Feed';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 
 // 새로운 이미지를 올리는 화면
@@ -99,11 +100,21 @@ const DUMMY_DATA = [
 
 export default function Home() {
   const [ contents, serContents ] = useState( DUMMY_DATA );
+  const router = useRouter();
+
   return (
+    <>
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {contents.map((content) => (
         <Feed key={content.id} content={content} />
       ))}
     </main>
+    <button className='fixed bottom-10 left-0 right-0 mx-auto 
+      w-16 h-16 
+      bg-[url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png")]
+      bg-cover shadow-xl'
+      onClick={() => router.push("/new")}
+    ></button>
+    </>
   );
 }
