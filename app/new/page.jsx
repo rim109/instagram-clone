@@ -1,7 +1,7 @@
-import Photo from "../icons/Photo";
+import { Photo } from "../icons/Photo";
 
 export default function New() {
-  //새로운 feed를 생성
+  // 새로운 feed를 생성
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="w-[400px] bg-white mb-1">
@@ -10,8 +10,8 @@ export default function New() {
           <div className="flex items-center ">
             <div
               className={`rounded-full w-10 h-10
-              bg-[url('https://cdn-icons-png.flaticon.com/512/1361/1361876.png')]
-            bg-contain mr-2`}
+              bg-[url('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')]
+              bg-contain mr-2`}
             />
             <div>
               <div className="font-semibold">{"작성자"}</div>
@@ -19,11 +19,12 @@ export default function New() {
             </div>
           </div>
           {/* 더보기 버튼 */}
-          {/* <div>
-            <Menu />
-          </div> */}
+          <div>{/* <Menu /> */}</div>
         </div>
-        <div id="content" className="w-[400px] h-[400px] flex justify-center items-center">
+        <div
+          id="content"
+          className="w-[400px] h-[400px] flex justify-center items-center"
+        >
           <button>
             <Photo />
           </button>
@@ -33,18 +34,13 @@ export default function New() {
             alt="img"
           /> */}
         </div>
-        
-        
+
         <div id="comments" className="p-2">
-          
           <div>
-            <b>{"입력자"}</b> {"콘텐츠의 내용"}
+            <b>{"입력자"}</b> {"컨텐츠의 내용"}
           </div>
-          {/* 내가 작성한 컨텐츠의 글 */}
-          {/* 댓글들 */}
         </div>
       </div>
     </main>
-  )
+  );
 }
-
