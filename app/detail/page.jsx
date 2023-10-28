@@ -5,6 +5,5 @@
 // // my 내 정보화면
 
 export default function Detail() {
-  return<div>Feed Detail</div>
-  
+  return <div>Feed Detail</div>
 }
