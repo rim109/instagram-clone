@@ -1,12 +1,19 @@
-"use client"
-
+"use client";
 import { useState } from "react";
 import { Photo } from "../icons/Photo";
+import { firestore, storage } from "@/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { addDoc, collection } from "@firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+
+import { useRouter } from "next/navigation";
 
 export default function New() {
   // 새로운 feed를 생성
+  const [url, setUrl] = useState("");
+  const [value, setValue] = useState();
+  const router = useRouter();
 
-  const [file, setFile] = useState()
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="w-[400px] bg-white mb-1">
@@ -30,33 +37,68 @@ export default function New() {
           id="content"
           className="w-[400px] h-[400px] flex justify-center items-center"
         >
-          {/* <input 
-          id="file-upload" 
-          type="file" 
-          style={{display: "none"}} 
-          value={file} 
-          onChange={(e) => {
-           const file = e.target.files[0];
-           const upload = await uploadBytes(ref(storage, file.name),file);
-           console.log({uploaded});
-            const path = await ref(storage, file.name);
-            console.log({uploaded, path})
-          }} /> */}
-          <label htmlfor = "file-upload" className="cursor-pointer">
-            <Photo />
-          </label>
-          {/* <img
-            className="object-cover	w-[400px] h-[400px]"
-            src={"이미지 링크"}
-            alt="img"
-          /> */}
+          {url ? (
+            <img
+              className="object-cover	w-[400px] h-[400px]"
+              src={url}
+              alt="img"
+            />
+          ) : (
+            <>
+              <input
+                id="file-upload"
+                type="file"
+                style={{ display: "none" }}
+                onChange={async (e) => {
+                  const file = e.target.files[0];
+                  const generatedId = uuidv4();
+                  await uploadBytes(ref(storage, generatedId), file);
+                  const url = await getDownloadURL(ref(storage, generatedId));
+                  setUrl(url);
+                }}
+              />
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <Photo />
+              </label>
+            </>
+          )}
         </div>
 
         <div id="comments" className="p-2">
-          <div>
-            <b>{"입력자"}</b> {"컨텐츠의 내용"}
-          </div>
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            className="border-2 w-full h-12 rounded-sm"
+          />
         </div>
+          <button 
+          className='fixed bottom-10 left-0 right-0 mx-auto 
+            w-16 h-16 
+            bg-[url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png")]
+            bg-cover shadow-xl'
+        onClick={async() => {
+
+          try {
+          const docRef = await addDoc(collection(firestore,"feeds"),{
+            id:"xxxx",
+            author: {
+              id:"adsmlq",
+              name:"Rim",
+              profileImg:
+                "https://cdn-icons-png.flaticon.com/512/1361/1361876.png",
+            },
+            location:"Seoul",
+            image:url,
+            text: value  ,
+            liked: [],
+          });
+            console.log()
+            router.push("/")
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+    ></button>
       </div>
     </main>
   );
